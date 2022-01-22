@@ -1,3 +1,6 @@
+!cp '/content/drive/MyDrive/FER DATA/fer2013.csv.zip' /content
+!unzip fer2013.csv.zip
+
 import tensorflow as tf
 
 import keras
@@ -13,9 +16,9 @@ import matplotlib.pyplot as plt
 
 #------------------------------
 #cpu - gpu configuration
-config = tf.ConfigProto( device_count = {'GPU': 0 , 'CPU': 56} ) #max: 1 gpu, 56 cpu
-sess = tf.Session(config=config) 
-keras.backend.set_session(sess)
+#config = tf.ConfigProto( device_count = {'GPU': 0 , 'CPU': 56} ) #max: 1 gpu, 56 cpu
+#sess = tf.Session(config=config) 
+#keras.backend.set_session(sess)
 #------------------------------
 #variables
 num_classes = 7 #angry, disgust, fear, happy, sad, surprise, neutral
@@ -25,7 +28,7 @@ epochs = 5
 #read kaggle facial expression recognition challenge dataset (fer2013.csv)
 #https://www.kaggle.com/c/challenges-in-representation-learning-facial-expression-recognition-challenge
 
-with open("/data/fer2013/fer2013.csv") as f:
+with open("/content/fer2013.csv") as f:
     content = f.readlines()
 
 lines = np.array(content)
@@ -123,7 +126,7 @@ if fit == True:
 	#model.fit_generator(x_train, y_train, epochs=epochs) #train for all trainset
 	model.fit_generator(train_generator, steps_per_epoch=batch_size, epochs=epochs) #train for randomly selected one
 else:
-	model.load_weights('/data/facial_expression_model_weights.h5') #load weights
+	model.load_weights('https://github.com/serengil/tensorflow-101/blob/master/model/facial_expression_model_weights.h5') #load weights
 	
 #------------------------------
 """
@@ -174,7 +177,7 @@ if monitor_testset_results == True:
 #------------------------------
 #make prediction for custom image out of test set
 
-img = image.load_img("C:/Users/IS96273/Desktop/jackman.png", grayscale=True, target_size=(48, 48))
+img = image.load_img("/content/drive/MyDrive/MODELS/Avishek.jpg", grayscale=True, target_size=(48, 48))
 
 x = image.img_to_array(img)
 x = np.expand_dims(x, axis = 0)
